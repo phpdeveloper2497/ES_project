@@ -1,0 +1,100 @@
+/* *{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+} */
+
+body {
+width: 100%;
+height: 100vh;
+/* display: flex; */
+justify-content: center;
+align-items: center;
+/* background:
+linear-gradient(to top right, #f5f6f3 100%); */
+}
+
+/* uzunlikni o'zgartirdik */
+
+
+.container {
+  max-width: 1140px;
+  background: #fff;
+  border-radius: 45px;
+  width: 1140px;
+  padding: 20px;
+  box-shadow: 0 2px 2px 43px rgba(0,0,0,0,1);
+  padding-top: 100px;
+  
+}
+
+.wrap{
+  display: flex;
+  justify-content:flex-end;
+  align-items: center;
+  width: 1000px;
+   padding-bottom: 10px;
+
+}
+
+
+/* Dnyamic add  */
+
+.flex{
+  display: flex;
+  gap: 10em;
+  margin-bottom: 3px;
+  margin-left: 2px;
+}
+
+/* input table */
+
+input{
+  padding: auto;
+  background:	white;
+  margin-right: 2px;
+}
+
+.unuit-title{
+  text-indent: 15px;
+  text-align: justify;
+  letter-spacing: 3px;
+  color: #008CBA;
+}
+
+/* Button section */
+.add {
+  display: inline-block;
+  /* padding: 1px 2px; */
+  display: flex;
+  font-size: 20px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px #999;
+  width: 25x;
+  height: 35px;
+}
+
+.add:hover {background-color: #3e8e41}
+
+.add:active {
+  background-color: #3e8e41;
+  box-shadow: 0 2px #d4c5c5;
+  transform: translateY(3px);
+}
+
+.btn-device{
+  margin: 10px; 
+  font-size: 22px;
+}
+
+.ico-plus {
+margin-top: 5px;
+
+}

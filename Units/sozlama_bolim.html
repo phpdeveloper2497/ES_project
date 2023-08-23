@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/assets/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/DataTables/datatables.css" />
+
+  <style>
+    .title-soz {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      letter-spacing: 3px;
+      color: #008CBA;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="title-soz">
+    <h1>
+      Sozlamalar bo'limi
+    </h1>
+  </div>
+  <div class="container">
+    <table id="example" class="table"></table>
+  </div>
+
+  <script src="/DataTables/code.jquery.com_jquery-3.7.0.js"></script>
+  <script src="/DataTables/cdn.jsdelivr.net_npm_bootstrap@5.0.2_dist_js_bootstrap.min.js"></script>
+
+  <script src="/DataTables/datatables.js"></script>
+  <script src="/DataTables/Buttons-2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="/DataTables/Select-1.7.0/js/dataTables.select.js"></script>
+  <script src="/DataTables/DateTime-1.5.1/js/dataTables.dateTime.min.js"></script>
+  <script src="/DataTables/Editor-2023-09-05-2.2.2/js/editor.bootstrap5.min.js"></script>
+  <script>
+
+    $(document).ready(function () {
+      let todo = {};
+
+      // Create or update the todo localStorage entry
+      if (localStorage.getItem('todo')) {
+        todo = JSON.parse(localStorage.getItem('todo'));
+      }
+
+      // Set up the editor
+      const editor = new DataTable.Editor({
+        table: '#example',
+        fields: [
+          {
+            label: 'Item:',
+            name: 'item'
+          },
+          {
+            label: 'Status:',
+            name: 'status'
+          },
+
+        ],
+        ajax: function (method, url, d, successCallback, errorCallback) {
+          let output = { data: [] };
+
+          if (d.action === 'create') {
+            // Create new row(s), using the current time and loop index as
+            // the row id
+            let dateKey = +new Date();
+
+            for (const [key, value] of Object.entries(d.data)) {
+              let id = dateKey + '' + key;
+
+              value.DT_RowId = id;
+              todo[id] = value;
+              output.data.push(value);
+            }
+          }
+          else if (d.action === 'edit') {
+            // Update each edited item with the data submitted
+            for (const [id, value] of Object.entries(d.data)) {
+              value.DT_RowId = id;
+              Object.assign(todo[id], value);
+              output.data.push(todo[id]);
+            }
+          }
+          else if (d.action === 'remove') {
+            // Remove items from the object
+            for (const id of Object.keys(d.data)) {
+              delete todo[id];
+            }
+          }
+
+          // Store the latest `todo` object for next reload
+          localStorage.setItem('todo', JSON.stringify(todo));
+
+          // Show Editor what has changed
+          successCallback(output);
+        }
+      });
+
+      const editor2 = new DataTable.Editor({
+        table: '#example',
+        fields: [
+          {
+            label: 'Item:',
+            name: 'item'
+          },
+          {
+            label: 'Status:',
+            name: 'status'
+          },
+          {
+            label: 'Ok:',
+            name: 'ok'
+          },
+          {
+            label: 'Sa:',
+            name: 'sa'
+          }
+        ],
+        ajax: function (method, url, d, successCallback, errorCallback) {
+          let output = { data: [] };
+          console.log(d)
+
+          if (d.action === 'create') {
+            // Create new row(s), using the current time and loop index as
+            // the row id
+            let dateKey = +new Date();
+
+            for (const [key, value] of Object.entries(d.data)) {
+              let id = dateKey + '' + key;
+
+              value.DT_RowId = id;
+              todo[id].device = value;
+
+              // output.data.push(value);
+            }
+          }
+          else if (d.action === 'edit') {
+            // Update each edited item with the data submitted
+            for (const [id, value] of Object.entries(d.data)) {
+              value.DT_RowId = id;
+              Object.assign(todo[id], value);
+              output.data.push(todo[id]);
+            }
+          }
+          else if (d.action === 'remove') {
+            // Remove items from the object
+            for (const id of Object.keys(d.data)) {
+              delete todo[id];
+            }
+          }
+
+          // Store the latest `todo` object for next reload
+          localStorage.setItem('todo', JSON.stringify(todo));
+
+          // Show Editor what has changed
+          successCallback(output);
+        }
+      });
+
+      // Initialise the DataTable
+      let table = new DataTable('#example', {
+        buttons: [
+          {
+            extend: 'createInline',
+            editor,
+            formOptions: {
+              submitTrigger: -2,
+              submitHtml: '<i class="fa fa-play"/>'
+            },
+            className: "btn btn-primary"
+          }
+        ],
+        columns: [
+          { data: 'item' },
+          { data: 'status' },
+          {
+            data: null,
+            defaultContent: '➕',
+            className: 'row-extra dt-center',
+            orderable: false,
+          },
+          {
+            data: null,
+            defaultContent: '✏️',
+            className: 'row-edit dt-center',
+            orderable: false
+          },
+          {
+            data: null,
+            defaultContent: '🗑️',
+            className: 'row-remove dt-center',
+            orderable: false
+          }],
+        data: Object.values(todo),
+        dom: 'Bfrtip',
+        select: {
+          style: 'os',
+          selector: 'td:first-child'
+        }
+      });
+
+      table.on('click', 'tbody td.row-edit', function (e) {
+        editor.inline(table.cells(this.parentNode, '*').nodes(), {
+          submitTrigger: -2,
+          submitHtml: '✔️'
+        });
+      });
+
+      // Delete row
+      table.on('click', 'tbody td.row-remove', function (e) {
+        editor.remove(this.parentNode, {
+          title: 'O\'chirish',
+          message: 'Rostdan ham o\'chirishni xoxlaysizmi?',
+          buttons: 'Delete'
+        });
+      });
+
+      table.on('click', 'tbody td.row-extra', function (e) {
+        editor2.edit(this.parentNode, {
+          title: 'Add new record',
+          buttons: 'Save'
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>

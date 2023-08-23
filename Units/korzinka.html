@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/CSS/korzinka.css">
+</head>
+<body>
+  
+  <!-- <div class="title">
+    <h1>Sozlamalar bo'limi</h1>
+  </div> -->
+  <div class="container">
+  
+        <div class="wrap">
+          <!-- <h2 class="unuit-title">Sozlamalar bo'limi </h2> -->
+          <a href="#" class="add">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="30"  fill="currentColor" class="ico-plus bi bi-plus-circle" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>            
+          <h6 class="btn-device"> bo'linma qo'shish </h6>
+          </a>
+        </div>
+        <div id="inp-group">
+
+
+        </div>
+  </div>
+  <!--***********************************************************  -->
+<script>
+localStorage.setItem("name","John Doe");
+document.getElementById("inp-group").innerHTML = localStorage.getItem("name");
+
+
+
+
+
+const addBtn = document.querySelector(".add");
+const input = document.querySelector(".inp-group");
+
+function addInput(){
+  const header1 = document.createElement("input");
+  header1.type="text";
+
+  const header2 = document.createElement("input");
+  header2.type="text";
+
+  const header3 = document.createElement("input");
+  header3.type="text";
+
+  const header4 = document.createElement("input");
+  header4.type="text";
+
+  const header5 = document.createElement("input");
+  header5.type="text";
+
+  const header6 = document.createElement("input");
+  header6.type="text";
+
+  // const btn = document.createElement("a");
+  btn.className = "delete";
+  // btn.innerHTML = "&times"
+
+  const flex=document.createElement("div");
+  flex.className = "flex";
+  input.appendChild(flex);
+  input.appendChild(header1);
+  input.appendChild(header2);
+  input.appendChild(header3);
+  input.appendChild(header4);
+  input.appendChild(header5);
+  input.appendChild(header6);
+  // input.appendChild(btn);
+
+
+}
+
+
+
+
+addBtn.addEventListener("click",addInput);
+
+</script>
+
+
+
+  <!-- ****************************************************************** -->
+
+
+  <script src="/JS_code/korzinka.js"></script>
+</body>
+</html>
